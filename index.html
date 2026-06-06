@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Coding Challenge — Links</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1a6b3a;
+      --green-light: #e8f4ed;
+      --gold: #c9a84c;
+      --dark: #0f1a13;
+      --text: #1c2b20;
+      --muted: #6b7f70;
+      --border: #d4e4d9;
+      --bg: #f7faf8;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 48px 20px 64px;
+    }
+
+    /* subtle pitch-line texture in background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 48px,
+        rgba(26,107,58,0.04) 48px,
+        rgba(26,107,58,0.04) 50px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: var(--green-light);
+      border: 1px solid #b6d9c3;
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 14px;
+    }
+
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 16px auto 0;
+      border-radius: 1px;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 32px 0 12px 4px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    /* ── Link cards ── */
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26,107,58,0.10);
+      border-color: #a8ceB8;
+    }
+
+    .link-card:active {
+      transform: translateY(0);
+    }
+
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .icon-green  { background: var(--green-light); }
+    .icon-gold   { background: #faf3e0; }
+    .icon-blue   { background: #e8f0fb; }
+    .icon-dark   { background: #eef0ef; }
+
+    .link-text { flex: 1; min-width: 0; }
+
+    .link-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-desc {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .arrow {
+      font-size: 16px;
+      color: var(--border);
+      flex-shrink: 0;
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+
+    .link-card:hover .arrow {
+      color: var(--green);
+      transform: translateX(2px);
+    }
+
+    /* difficulty dots */
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+    .dot-easy   { background: #28a745; }
+    .dot-medium { background: #f0a500; }
+    .dot-hard   { background: #d9363e; }
+    .dot-bonus  { background: var(--gold); }
+
+    /* staggered animation delays */
+    .link-card:nth-child(1) { animation-delay: 0.05s; }
+    .link-card:nth-child(2) { animation-delay: 0.10s; }
+    .link-card:nth-child(3) { animation-delay: 0.15s; }
+    .link-card:nth-child(4) { animation-delay: 0.20s; }
+    .link-card:nth-child(5) { animation-delay: 0.25s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 300;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="badge">World Cup 2026</span>
+      <h1>Weekend Coding Challenge</h1>
+      <p>Three projects to ship before the first kickoff.<br>All the resources you need, right here.</p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section-label">The Projects</div>
+
+    <a class="link-card" href="#" target="_blank" rel="noopener">
+      <div class="icon icon-green">📊</div>
+      <div class="link-text">
+        <span class="link-title"><span class="dot dot-easy"></span>Easy — Group Stage Tracker</span>
+        <span class="link-desc">HTML, CSS, JS or Python Flask — 2 to 4 hours</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="#" target="_blank" rel="noopener">
+      <div class="icon icon-gold">📡</div>
+      <div class="link-text">
+        <span class="link-title"><span class="dot dot-medium"></span>Medium — Match Prediction Visualizer</span>
+        <span class="link-desc">React + Python FastAPI + Elo calculator — 6 to 10 hours</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="#" target="_blank" rel="noopener">
+      <div class="icon icon-blue">🤖</div>
+      <div class="link-text">
+        <span class="link-title"><span class="dot dot-hard"></span>Hard — AI Bracket Simulator</span>
+        <span class="link-desc">Python + scikit-learn + Monte Carlo — full weekend</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://www.datacamp.com/competitions/world-cup-prediction" target="_blank" rel="noopener">
+      <div class="icon icon-dark">🏆</div>
+      <div class="link-text">
+        <span class="link-title"><span class="dot dot-bonus"></span>Bonus — DataCamp Competition</span>
+        <span class="link-desc">Predict all 104 matches. Win an official FIFA jersey.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- Free APIs -->
+    <div class="section-label">Free Football APIs</div>
+
+    <a class="link-card" href="https://github.com/openfootball/worldcup.json" target="_blank" rel="noopener">
+      <div class="icon icon-green">🌐</div>
+      <div class="link-text">
+        <span class="link-title">openfootball / worldcup.json</span>
+        <span class="link-desc">No API key needed. 2026 data included.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://fifa.balldontlie.io" target="_blank" rel="noopener">
+      <div class="icon icon-blue">⚽</div>
+      <div class="link-text">
+        <span class="link-title">BallDontLie — FIFA World Cup API</span>
+        <span class="link-desc">Teams, players, stats, match events, shot maps.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://github.com/rezarahiminia/worldcup2026" target="_blank" rel="noopener">
+      <div class="icon icon-green">📡</div>
+      <div class="link-text">
+        <span class="link-title">worldcup2026 REST API</span>
+        <span class="link-desc">Open-source. Live scores, standings, groups, stadiums.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://www.api-football.com" target="_blank" rel="noopener">
+      <div class="icon icon-gold">📈</div>
+      <div class="link-text">
+        <span class="link-title">API-Football</span>
+        <span class="link-desc">Most comprehensive. Free tier available. Python ready.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- Visualization Sites -->
+    <div class="section-label">Visualization Inspiration</div>
+
+    <a class="link-card" href="https://www.sofascore.com" target="_blank" rel="noopener">
+      <div class="icon icon-blue">🎯</div>
+      <div class="link-text">
+        <span class="link-title">SofaScore</span>
+        <span class="link-desc">Heatmaps, radar charts, and player performance visuals.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://renderfoot.com/player-comparison" target="_blank" rel="noopener">
+      <div class="icon icon-green">📐</div>
+      <div class="link-text">
+        <span class="link-title">Renderfoot — Player Comparison</span>
+        <span class="link-desc">Exportable radar charts. Great reference for the medium project.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://football-md.com/world-cup-simulator" target="_blank" rel="noopener">
+      <div class="icon icon-gold">🧮</div>
+      <div class="link-text">
+        <span class="link-title">Football-MD Bracket Simulator</span>
+        <span class="link-desc">Live Monte Carlo bracket. The finished hard project in action.</span>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <div class="footer">Built for the coding community &nbsp;·&nbsp; World Cup 2026</div>
+  </div>
+</body>
+</html>
